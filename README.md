@@ -17,41 +17,41 @@ github:https://github.com/dangdangdotcom/sharding-jdbc
 ####二.otter:
 阿里的数据同步解决方案。在本项目中用于实现基于sharding-jdbc读写分离的主从库之间的数据同步。
 
-github:https://github.com/alibaba/otter
+#####github:https://github.com/alibaba/otter
 
 
 ####三.disconf:
 百度的分布式文件配置解决方案。在本项目中用于实现灵活，高效，并且完美热部署的文件配置及修改等功能。
 
-####github:https://github.com/alibaba/otter<br/>
-官网文件：http://disconf.readthedocs.io/zh_CN/latest/
+#####github:https://github.com/alibaba/otter<br/>
+#####官网文件：http://disconf.readthedocs.io/zh_CN/latest/
 
 
 ####四.dubbo(dubbox):
 原为阿里的分布式服务框架，当当在此基础上进行了增强。本项目中通过dubbo-provider.xml简单模拟了通过dubbo实现的远程调用。
 
-dubbox:github:https://github.com/dangdangdotcom/dubbox<br/>
-dubbo:github:https://github.com/alibaba/dubbo<br/>
-dubbo原官方文档：http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8
+#####dubbox:github:https://github.com/dangdangdotcom/dubbox<br/>
+#####dubbo:github:https://github.com/alibaba/dubbo<br/>
+#####dubbo原官方文档：http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8
 
 
 ####五.elastic-job:
 当当的分布式弹性作业框架，与sharding-jdbc实现共同异步化操作。暂未实现。
 
-github:https://github.com/dangdangdotcom/elastic-job
+#####github:https://github.com/dangdangdotcom/elastic-job
 
 
 ## 其它基础开源应用及组件：
-一.zookeeper:
-github:https://github.com/apache/zookeeper
+####一.zookeeper:
+#####github:https://github.com/apache/zookeeper
 
-二.redis:
+####二.redis:
 
-三.mybatis-pageHelper:
+####三.mybatis-pageHelper:
 
-四.dataTables:
+####四.dataTables:
 
-五.bootstrap
+####五.bootstrap
 
 
 
