@@ -1,5 +1,5 @@
-# DEMO
-# 整合分布式企业级应用框架的综合性DEMO
+# Integration of Distributed Enterprise Application Frame - DEMO
+# 综合性分布式企业级应用框架整合DEMO
 
 本项目意在结合国内目前各大公司开源产品，对当今企业级分布式架构体系应用提供较为合理的解决方案的项目示例，仅供参考和学习使用。
 
