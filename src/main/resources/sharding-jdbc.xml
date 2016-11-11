@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:rdb="http://www.dangdang.com/schema/ddframe/rdb"
+	xsi:schemaLocation="
+		 http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/context 
+		 http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		 http://www.springframework.org/schema/tx 
+		 http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		 http://www.springframework.org/schema/mvc
+		 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.dangdang.com/schema/ddframe/rdb 
+		 http://www.dangdang.com/schema/ddframe/rdb/rdb.xsd">
+
+	<!-- 数据源配置：双主库，一主两从读写分离-->	
+	<bean id="dbtbl_0_master" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.65.105:3306/dbtbl_0"/>
+		<property name="username" value="root"/>
+		<property name="password" value="123456"/>
+	</bean>
+	
+	<bean id="dbtbl_0_slave_0" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.65.105:3306/dbtbl_0_slave_0"/>
+		<property name="username" value="root"/>
+		<property name="password" value="123456"/>
+	</bean>
+	
+	<bean id="dbtbl_0_slave_1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.65.105:3306/dbtbl_0_slave_1"/>
+		<property name="username" value="root"/>
+		<property name="password" value="123456"/>
+	</bean>
+
+	<bean id="dbtbl_1_master" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.65.105:3306/dbtbl_1"/>
+		<property name="username" value="root"/>
+		<property name="password" value="123456"/>
+	</bean>
+	
+	<bean id="dbtbl_1_slave_0" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.65.105:3306/dbtbl_1_slave_0"/>
+		<property name="username" value="root"/>
+		<property name="password" value="123456"/>
+	</bean>
+	
+	<bean id="dbtbl_1_slave_1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.65.105:3306/dbtbl_1_slave_1"/>
+		<property name="username" value="root"/>
+		<property name="password" value="123456"/>
+	</bean>
+	
+	<!-- 定义读写分离数据源, 读写分离数据源实现了DataSource接口, 可直接当做数据源处理 -->
+	<rdb:master-slave-data-source id="dbtbl_0" master-data-source-ref="dbtbl_0_master" slave-data-sources-ref="dbtbl_0_slave_0, dbtbl_0_slave_1" />
+	<rdb:master-slave-data-source id="dbtbl_1" master-data-source-ref="dbtbl_1_master" slave-data-sources-ref="dbtbl_1_slave_0, dbtbl_1_slave_1" />
+	
+	<!-- 分库分表策略定义，如：t_order_${order_id.longValue() % 4} -->
+	<rdb:strategy id="databaseStrategy" sharding-columns="ID" algorithm-class="com.demo.dao.algorithm.SingleKeyModuloDatabaseShardingAlgorithm"/>
+	<rdb:strategy id="tableStrategy" sharding-columns="ISBN" algorithm-class="com.demo.dao.algorithm.SingleKeyModuloTableShardingAlgorithm"/>
+
+	<rdb:data-source id="shardingDataSource">
+		<rdb:sharding-rule data-sources="dbtbl_0, dbtbl_1">
+			<rdb:table-rules>
+				<!-- ${begin..end} 表示范围区间 ${[unit1, unit2, unitX]} 表示枚举值 -->
+				<rdb:table-rule logic-table="book" actual-tables="book_${0..1}" table-strategy="tableStrategy" database-strategy="databaseStrategy"/>
+<!-- 				<rdb:table-rule logic-table="t_order" actual-tables="t_order_${0..1}" table-strategy="tableStrategy" database-strategy="databaseStrategy"/> -->
+			</rdb:table-rules>
+<!-- 			<rdb:binding-table-rules> -->
+<!-- 				<rdb:binding-table-rule logic-tables="BOOK"/> -->
+<!-- 			</rdb:binding-table-rules> -->
+<!-- 			<rdb:default-database-strategy sharding-columns="ID" algorithm-class="com.demo.dao.algorithm.GenericSingleKeyDatabaseShardingAlgorithm"/> -->
+<!-- 			<rdb:default-table-strategy sharding-columns="ID" algorithm-class="com.demo.dao.algorithm.GenericSingleKeyTableShardingAlgorithm"/> -->
+		</rdb:sharding-rule>
+		<rdb:props>
+			<!-- 是否开启度量采集，默认为false不开启 -->
+			<prop key="metrics.enable">true</prop>
+			<!-- 度量输出周期，单位为毫秒 -->
+<!-- 			<prop key="metrics.millisecond.period">60000</prop> -->
+			<!-- 度量输出在日志中的标识名称 -->
+<!-- 			<prop key="metrics.logger.name">metrics_log</prop> -->
+			<!-- 最小空闲工作线程数量 -->
+<!-- 			<prop key="executor.min.idle.size">1</prop> -->
+			<!-- 最大工作线程数量 -->
+<!-- 			<prop key="executor.max.size">100</prop> -->
+			<!-- 工作线程空闲时超时时间，默认以毫秒为单位 -->
+<!-- 			<prop key="executor.max.idle.timeout.millisecond">1000000000</prop> -->
+		</rdb:props>
+	</rdb:data-source>
+	
+</beans>

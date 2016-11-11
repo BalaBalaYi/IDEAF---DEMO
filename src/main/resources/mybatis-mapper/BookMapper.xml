@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.BookDao">
+	<resultMap id="BookMap" type="Book">
+		<result property="id" column="ID" jdbcType="INTEGER" />
+		<result property="name" column="NAME" jdbcType="VARCHAR" />
+		<result property="author" column="AUTHOR" jdbcType="VARCHAR" />
+		<result property="publisher" column="PUBLISHER" jdbcType="VARCHAR" />
+		<result property="publicationTime" column="PUBLICATION_TIME" jdbcType="TIMESTAMP" />
+		<result property="price" column="PRICE" jdbcType="VARCHAR" />
+		<result property="isbn" column="ISBN" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryById" parameterType="Integer" resultMap="BookMap">
+		select * from book t
+		<where>
+			t.ID = #{id,jdbcType=INTEGER}
+		</where>
+	</select>
+	
+	<select id="queryByISBN" parameterType="String" resultMap="BookMap">
+		select * from book t
+		<where>
+			t.ISBN = #{isbn,jdbcType=VARCHAR}
+		</where>
+	</select>
+	
+	<select id="queryAll" resultMap="BookMap">
+		select * from book t order by t.ID
+	</select>
+	
+<!-- 	<insert id="insert" parameterType="Book"> -->
+<!-- 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String"> -->
+<!-- 			SELECT -->
+<!-- 			BOOK_SEQ.nextVal -->
+<!-- 			AS id FROM DUAL -->
+<!-- 		</selectKey> -->
+<!-- 		insert into Book -->
+<!-- 			( -->
+<!-- 			ID, -->
+<!-- 			NAME, -->
+<!-- 			AUTHOR, -->
+<!-- 			PUBLISHER, -->
+<!-- 			PUBLICATION_TIME, -->
+<!-- 			PRICE, -->
+<!-- 			ISBN -->
+<!-- 			) -->
+<!-- 		values -->
+<!-- 			( -->
+<!-- 			#{id,jdbcType=INTEGER}, -->
+<!-- 			#{name,jdbcType=VARCHAR}, -->
+<!-- 			#{author,jdbcType=VARCHAR}, -->
+<!-- 			#{publisher,jdbcType=VARCHAR}, -->
+<!-- 			#{publicationTime,jdbcType=TIMESTAMP}, -->
+<!-- 			#{price,jdbcType=VARCHAR}, -->
+<!-- 			#{isbn,jdbcType=VARCHAR} -->
+<!-- 			) -->
+<!-- 	</insert> -->
+
+	<insert id="insert" parameterType="Book">
+		insert into book
+			(
+			ID,
+			NAME,
+			AUTHOR,
+			PUBLISHER,
+			PUBLICATION_TIME,
+			PRICE,
+			ISBN
+			)
+		values
+			(
+			#{id,jdbcType=INTEGER},
+			#{name,jdbcType=VARCHAR},
+			#{author,jdbcType=VARCHAR},
+			#{publisher,jdbcType=VARCHAR},
+			#{publicationTime,jdbcType=TIMESTAMP},
+			#{price,jdbcType=VARCHAR},
+			#{isbn,jdbcType=VARCHAR}
+			)
+	</insert>
+	
+	<update id="update" parameterType="Book">
+		update book 
+		<set>
+			<if test="name != null">NAME = #{name,jdbcType=VARCHAR},</if>
+			<if test="author != null">AUTHOR = #{author,jdbcType=VARCHAR},</if>
+			<if test="publisher != null">PUBLISHER = #{publisher,jdbcType=VARCHAR},</if>
+			<if test="publicationTime != null">PUBLICATION_TIME = #{publicationTime,jdbcType=TIMESTAMP},</if>
+			<if test="price != null">PRICE = #{price,jdbcType=VARCHAR},</if>
+			<if test="isbn != null">ISBN = #{isbn,jdbcType=VARCHAR}</if>
+		</set>
+		<where>
+			ID = #{id,jdbcType=INTEGER}
+		</where>
+	</update>
+	
+	<delete id="delete" parameterType="Integer">
+		delete from book
+		<where>
+			ID = #{id,jdbcType=INTEGER}
+		</where>
+	</delete>
+
+</mapper>

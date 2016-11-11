@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>	
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator 
+			<filter class="ch.qos.logback.core.filter.EvaluatorFilter"> <evaluator> <expression>logger.contains("springframework")</expression> 
+			</evaluator> <OnMismatch>NEUTRAL</OnMismatch> <OnMatch>DENY</OnMatch> </filter> -->
+		<encoder charset="UTF-8">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="RollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		<!--日志文件路径(上线需要修改) -->
+<!-- 			<fileNamePattern>/home/xxsysadmin/logs/demo%d{yyyy-MM-dd}.log</fileNamePattern>
+ -->			<!--日志文件路径(上线需要修改) -->
+			<fileNamePattern>d://logs/demo%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>
+			%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<!--日志级别(为避免日志太多上线可以修改为      INFO  ) -->
+	<root level="INFO">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="RollingFile" />
+	</root>
+	
+</configuration> 
