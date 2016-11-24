@@ -7,7 +7,7 @@
 
 <br/>
 ## DEMO应用架构体系图：
-![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/DEMO-ARCH.gif)  
+![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/DEMO-ARCH.gif)  
 
 <br/>
 ## 主要集成开源应用的介绍：
@@ -77,7 +77,7 @@
 <br/>
 ## 如何部署并运行：
 
-####一. 完整部署并运行上述主要集成的开源应用，当然基础性的应用及组件也是必要的。
+####一. 完整部署并运行上述主要集成的开源应用，当然zoopkeeper必须要有。
 
 ####二. 执行demo.sql脚本，建立DEMO主体应用所需的库和表（要求：mysql数据库）。
 
@@ -91,9 +91,27 @@
 
 ####五. 将war包放入tomcat或其它应用容器部署运行。
 
+#####war包download:http://pan.baidu.com/s/1eRRiogi
+
 <br/>
 ## 效果图展示：
+![项目示例首页](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/index.gif)  
+![DEMO首页（查询页）](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/main.gif)  
+![DEMO子页（添加页）](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/add.gif)  
 
+<br/>
+## 项目计划：
+
+###V1.0 基础实现
+>#####v1.0.0 底层支持应用+基础框架+基础代码            ——已完成
+>#####v1.1.0 引入Druid及其附属功能，引入分布式主键自生成实现          ——进行中
+        
+###v2.0 elastic-job+datax+hbase的大数据存储及高效查询的实现
+
+###v3.0 应用分布式化+分布式事务实现（这个......能不能坚持到这个时候，就看缘分了......）
+
+
+##最后真心希望，能与从事java web开发以及刚接触分布式的小伙伴们，多多分享，多多学习！
 
 
 
