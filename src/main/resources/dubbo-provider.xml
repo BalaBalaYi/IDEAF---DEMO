@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo 
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="DEMO" owner="BalaBalaYi"/>
+
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry address="zookeeper://192.168.65.107:2181"/>
+
+	<!-- 监控中心配置 -->
+	<dubbo:monitor protocol="registry"/>
+
+	<!-- 协议配置 -->  
+	<dubbo:protocol name="hessian" port="20880" />
+
+	<!-- <dubbo:service>和<dubbo:protocol> 的默认配置 -->
+	<dubbo:provider>
+		<!-- 采用hessian协议提供服务，对应hessian2的协议序列化方式 -->
+		<dubbo:parameter key="protocol" value="hessian"/>
+		<!-- 服务线程池大小(固定大小)  -->
+		<dubbo:parameter key="threads" value="100"/>
+		<!-- 线程池类型，可选：fixed/cached -->
+		<dubbo:parameter key="threadpool" value="fixed"/>
+		<!-- 请求及响应数据包大小限制，单位：字节 -->
+		<dubbo:parameter key="payload" value="88388608"/>
+		<!-- 服务最大可接受连接数，默认0表示无限制 -->
+		<dubbo:parameter key="accepts" value="0"/>
+		<!-- 延迟注册服务时间(毫秒)- ，设为-1时，表示延迟到Spring容器初始化完成时暴露服务 -->
+		<dubbo:parameter key="delay" value="0"/>
+		<!-- 远程服务调用超时时间(毫秒)  -->
+		<dubbo:parameter key="timeout" value="0"/>
+		<!-- 远程服务调用重试次数，不包括第一次调用，不需要重试请设为0 -->
+		<dubbo:parameter key="retries" value="2"/>
+		<!-- 对每个提供者的最大连接数，rmi、http、hessian等短连接协议表示限制连接数，dubbo等长连接协表示建立的长连接个数 -->
+		<dubbo:parameter key="connections" value="0"/>
+		<!-- 负载均衡策略，可选值：random,roundrobin,leastactive，分别表示：随机，轮循，最少活跃调用 -->
+		<dubbo:parameter key="loadbalance" value="leastactive"/>
+		<!-- 服务提供者每服务每方法最大可并行执行请求数 -->
+		<dubbo:parameter key="executes" value="0"/>
+		<!-- 每服务消费者每服务每方法最大并发调用数 -->
+		<dubbo:parameter key="actives" value="0"/>
+		<!-- 线程池队列大小，当线程池满时，排队等待执行的队列大小。不设置或设为0，即当线程程池时应立即失败，重试其它服务提供机器，而不是排队-->
+		<dubbo:parameter key="queues" value="0"/>
+		<!-- 序列化编码  -->
+		<dubbo:parameter key="charset" value="UTF-8"/>
+		<!-- 服务文档url -->
+		<dubbo:parameter key="document" value="https://192.168.65.129/svn/development/Merchant/develop/doc/"/>
+	</dubbo:provider>
+	
+	
+	<!-- 声明需要暴露的服务接口以及对应服务的实现 --> 
+	<!-- 示例接口 -->
+	<dubbo:service interface="com.demo.api.BookInterface" ref="bookService_dubbo" />
+	<bean id="bookService_dubbo" class="com.demo.api.impl.BookInterfaceImpl" /> 
+
+</beans>
+
+
+<!-- 以下为对应消费者的dubbo-consumer.xml的配置
+
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans	xmlns="http://www.springframework.org/schema/beans"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+		xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"  
+		xsi:schemaLocation="http://www.springframework.org/schema/beans          
+		http://www.springframework.org/schema/beans/spring-beans.xsd          
+		http://code.alibabatech.com/schema/dubbo          
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	    
+
+	<dubbo:application name="mservice" owner="MP" organization="19pay"/>  
+	
+	<dubbo:registry address="zookeeper://192.168.65.107:2181" /> 
+	
+	<dubbo:monitor protocol="registry"/>
+	
+	<dubbo:consumer>
+		<dubbo:parameter key="timeout" value="0"/>
+		<dubbo:parameter key="retries" value="2"/>
+		<dubbo:parameter key="connections" value="0"/>
+		<dubbo:parameter key="loadbalance" value="leastactive"/>
+	</dubbo:consumer>
+	
+	<dubbo:reference id="bookService_dubbo" interface="com.demo.api.BookInterface" />
+
+</beans>
+
+	使用时直接将com.demo.api.BookInterface类以spring的方式注入即可
+
+ -->

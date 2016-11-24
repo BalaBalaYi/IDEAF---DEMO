@@ -71,7 +71,7 @@
 
 	<div id="main" class="demoMain">
 		<div id="title">
-			<h1>Spring+MyBatis+Sharding-JDBC DEMO</h1>
+			<h1>IDEAF-DEMO</h1>
 			<h3>————书籍管理</h3>
 		</div>
 		<div id="content" class="demoMain">

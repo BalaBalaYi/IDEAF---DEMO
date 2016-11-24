@@ -9,7 +9,7 @@
 <html lang="zh-CN">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>新增书籍</title>
+<title>修改书籍</title>
 <link href="<%=prefix%>/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="<%=prefix%>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="<%=prefix%>/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css"/>
@@ -95,36 +95,44 @@ $(document).ready(function(){
 	//表单提交
 	$("#update").click(function(){
 		
-		var name = $("#name").val();
-		if(name == ""){
-			$("#alertMsg").html("书名不能为空").fadeIn();
-			return;
-		}
-		
-		var publicationTime = $("#publicationTime").val();
-		if(publicationTime == ""){
-			$("#alertMsg").html("出版时间不能为空").fadeIn();
-			return;
-		}
-		
-		var isbn = $("#isbn").val();
-		if(isbn == ""){
-			$("#alertMsg").html("ISBN不能为空").fadeIn();
-			return;
-		}
-		
-		$.post('<%=prefix%>/queryByISBN.do',{"isbn":isbn},function(data){
-			if(data.book != "" && data.book != null){
-				var id = $("#bookId").val();
-				if(data.book.id != id){
-					$("#alertMsg").html("ISBN已存在").fadeIn();
-					return;
-				}
-			} 
-		},'json');
-		
 		var options = {
 			dataType:"json",
+			beforeSubmit:function(){
+				var flag = true;
+				var name = $("#name").val();
+				if(name == ""){
+					$("#alertMsg").html("书名不能为空").fadeIn();
+					flag = false;
+				}
+				
+				var publicationTime = $("#publicationTime").val();
+				if(publicationTime == ""){
+					$("#alertMsg").html("出版时间不能为空").fadeIn();
+					flag = false;
+				}
+				
+				var isbn = $("#isbn").val();
+				if(isbn == ""){
+					$("#alertMsg").html("ISBN不能为空").fadeIn();
+					flag = false;
+				}
+				$.ajax({
+					async:false,
+					url:"<%=prefix%>/queryByISBN.do",
+					data:{"isbn":isbn},
+					dataType:"json",
+					success:function(data){
+						if(data.book != "" && data.book != null){
+							var id = $("#bookId").val();
+							if(data.book.id != id){
+								$("#alertMsg").html("ISBN已存在").fadeIn();
+								flag = false;
+							}
+						} 
+					}
+				});
+				return flag;
+			},
 			success:function(data){
 				swal({
 					title: data.updateResult,

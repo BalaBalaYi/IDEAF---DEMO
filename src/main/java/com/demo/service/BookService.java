@@ -1,8 +1,11 @@
 package com.demo.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,7 @@ public class BookService {
 			book = bookDao.queryById(id);
 			bookVO = entityToVO(book);
 		} catch (Exception e) {
-			logger.error("BookServiceµÄqueryById·¢ÉúÒì³£", e);
+			logger.error("BookServiceçš„queryByIdå‘ç”Ÿå¼‚å¸¸", e);
 			return null;
 		}
 		return bookVO;
@@ -46,7 +49,7 @@ public class BookService {
 			PageHelper.startPage(pageNum, page.getPageSize());
 			bookList = bookDao.queryAll();
 			
-			//ÀàĞÍ×ª»»
+			//ç±»è½¬æ¢
 			for(BookEntity entity : bookList){
 				BookVO book = new BookVO();
 				book = entityToVO(entity);
@@ -54,38 +57,54 @@ public class BookService {
 			}
 			
 		} catch (Exception e) {
-			logger.error("BookServiceµÄqueryAll·¢ÉúÒì³£", e);
+			logger.error("BookServiceçš„queryAllå‘ç”Ÿå¼‚å¸¸", e);
 			return null;
 		}
 		return bookVOList;
 	}
 	
-	public boolean insert(BookEntity book){
+	public boolean insert(BookVO book){
+		
+		//ç±»è½¬æ¢
+		BookEntity entity = new BookEntity();
+		entity = voToEntity(book);
+		if(null == entity){
+			return false;
+		}
+		
 		int insertResult = -1;
 		try {
-			insertResult = bookDao.insert(book);
+			insertResult = bookDao.insert(entity);
 			if(insertResult == 1){
 				return true;
 			} else {
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("BookServiceµÄinsert·¢ÉúÒì³£", e);
+			logger.error("BookServiceçš„insertå‘ç”Ÿå¼‚å¸¸", e);
 			return false;
 		}
 	}
 	
-	public boolean update(BookEntity book){
+	public boolean update(BookVO book){
+		
+		//ç±»è½¬æ¢
+		BookEntity entity = new BookEntity();
+		entity = voToEntity(book);
+		if(null == entity){
+			return false;
+		}
+		
 		int updateResult = -1;
 		try {
-			updateResult = bookDao.update(book);
+			updateResult = bookDao.update(entity);
 			if(updateResult == 1){
 				return true;
 			} else {
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("BookServiceµÄupdate·¢ÉúÒì³£", e);
+			logger.error("BookServiceçš„updateå‘ç”Ÿå¼‚å¸¸", e);
 			return false;
 		}
 	}
@@ -100,26 +119,11 @@ public class BookService {
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("BookServiceµÄdelete·¢ÉúÒì³£", e);
+			logger.error("BookServiceçš„deleteå‘ç”Ÿå¼‚å¸¸", e);
 			return false;
 		}
 	}
 	
-	public BookVO entityToVO(BookEntity entity){
-		if(null == entity){
-			return null;
-		}
-		BookVO book = new BookVO();
-		book.setId(entity.getId() + "");
-		book.setAuthor(entity.getAuthor());
-		book.setIsbn(entity.getIsbn());
-		book.setName(entity.getName());
-		book.setPrice(entity.getPrice());
-		book.setPublicationTime(entity.getPublicationTime().toString());
-		book.setPublisher(entity.getPublisher());
-		return book;
-	}
-
 	public BookVO queryByISBN(String isbn) {
 		BookEntity book = new BookEntity();
 		BookVO bookVO = new BookVO();
@@ -127,9 +131,53 @@ public class BookService {
 			book = bookDao.queryByISBN(isbn);
 			bookVO = entityToVO(book);
 		} catch (Exception e) {
-			logger.error("BookServiceµÄqueryByISBN·¢ÉúÒì³£", e);
+			logger.error("BookServiceçš„queryByISBNå‘ç”Ÿå¼‚å¸¸", e);
 			return null;
 		}
 		return bookVO;
 	}
+	
+	public BookVO entityToVO(BookEntity entity){
+		if(null == entity){
+			return null;
+		}
+		BookVO book = new BookVO();
+		try{
+			book.setId(entity.getId() + "");
+			book.setAuthor(entity.getAuthor());
+			book.setIsbn(entity.getIsbn());
+			book.setName(entity.getName());
+			book.setPrice(entity.getPrice());
+			SimpleDateFormat format =new SimpleDateFormat("yyyy/MM/dd HH:mm");
+			book.setPublicationTime(format.format(entity.getPublicationTime()));
+			book.setPublisher(entity.getPublisher());
+		} catch (Exception e) {
+			logger.error("entityToVOç±»å‹è½¬æ¢å‘ç”Ÿå¼‚å¸¸", e);
+			return null;
+		}
+		return book;
+	}
+	
+	public BookEntity voToEntity(BookVO vo){
+		if(null == vo){
+			return null;
+		}
+		BookEntity book = new BookEntity();
+		try{
+			book.setId(Integer.parseInt(vo.getId()));
+			book.setAuthor(vo.getAuthor());
+			book.setIsbn(vo.getIsbn());
+			book.setName(vo.getName());
+			book.setPrice(vo.getPrice());
+			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+			book.setPublicationTime(format.parse(vo.getPublicationTime()));
+			book.setPublisher(vo.getPublisher());
+		} catch (Exception e) {
+			logger.error("voToEntityç±»å‹è½¬æ¢å‘ç”Ÿå¼‚å¸¸", e);
+			return null;
+		}
+		
+		return book;
+	}
+	
 }

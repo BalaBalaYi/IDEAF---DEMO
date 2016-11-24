@@ -7,26 +7,26 @@ public class CipherUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(CipherUtil.class);
 
-//	//JbossPasswordDecode加密
+//	//JbossPasswordDecode鍔犲瘑
 //	public static String JbossPasswordEncode(String str){
 //		
 //		String encodeStr = null;
 //		try {
 //			encodeStr = new String(SecureIdentityLoginModule.encode(str));
 //		} catch (Exception e) {
-//			logger.error("JbossPasswordDecode加密发生异常", e);
+//			logger.error("JbossPasswordDecode鍔犲瘑寮傚父", e);
 //		}
 //		return encodeStr; 
 //	}
 //	
-//	//JbossPasswordDecode加密
+//	//JbossPasswordDecode瑙ｅ瘑
 //	public static String JbossPasswordDecode(String str){
 //		
 //		String decodeStr = null;
 //		try {
 //			decodeStr = new String(SecureIdentityLoginModule.decode(str));
 //		} catch (Exception e) {
-//			logger.error("JbossPasswordDecode解密发生异常", e);
+//			logger.error("JbossPasswordDecode瑙ｅ瘑寮傚父", e);
 //		}
 //		return decodeStr; 
 //	}

@@ -121,52 +121,66 @@ $(document).ready(function(){
 	//表单提交
 	$("#add").click(function(){
 		
-		var id = $("#id").val();
-		if(id == ""){
-			$("#alertMsg").html("编号不能为空").fadeIn();
-			return;
-		}
-		var idRegex = new RegExp("^[0-9]{1,10}$");
-		var idRegexResult = idRegex.exec(id);
-		if(id != "" && idRegexResult == null){
-			$("#alertMsg").html("编号格式错误").fadeIn();
-			return;
-		}
-
-		$.post("<%=prefix%>/query.do",{"bookId":id},function(data){
-			if(data.bookList != ""){
-				$("#alertMsg").html("编号已存在").fadeIn();
-				return;
-			}
-		}, 'json');
-		
-		var name = $("#name").val();
-		if(name == ""){
-			$("#alertMsg").html("书名不能为空").fadeIn();
-			return;
-		}
-		
-		var publicationTime = $("#publicationTime").val();
-		if(publicationTime == ""){
-			$("#alertMsg").html("出版时间不能为空").fadeIn();
-			return;
-		}
-		
-		var isbn = $("#isbn").val();
-		if(isbn == ""){
-			$("#alertMsg").html("ISBN不能为空").fadeIn();
-			return;
-		}
-		
-		$.post('<%=prefix%>/queryByISBN.do',{"isbn":isbn},function(data){
-			if(data.book != "" && data.book != null){
-				$("#alertMsg").html("ISBN已存在").fadeIn();
-				return;
-			} 
-		},'json');
-		
 		var options = {
+			async:false,
 			dataType:"json",
+			beforeSubmit:function(){
+				var flag = true;
+				var id = $("#id").val();
+				if(id == ""){
+					$("#alertMsg").html("编号不能为空").fadeIn();
+					flag = false;
+				}
+				var idRegex = new RegExp("^[0-9]{1,10}$");
+				var idRegexResult = idRegex.exec(id);
+				if(id != "" && idRegexResult == null){
+					$("#alertMsg").html("编号格式错误").fadeIn();
+					flag = false;
+				}
+				$.ajax({
+					async:false,
+					url:"<%=prefix%>/query.do",
+					data:{"bookId":id},
+					dataType:"json",
+					success:function(data){
+						if(data.bookList != ""){
+							$("#alertMsg").html("编号已存在").fadeIn();
+							flag = false;
+						}
+					}
+				});
+				
+				var name = $("#name").val();
+				if(name == ""){
+					$("#alertMsg").html("书名不能为空").fadeIn();
+					flag = false;
+				}
+				
+				var publicationTime = $("#publicationTime").val();
+				if(publicationTime == ""){
+					$("#alertMsg").html("出版时间不能为空").fadeIn();
+					flag = false;
+				}
+				
+				var isbn = $("#isbn").val();
+				if(isbn == ""){
+					$("#alertMsg").html("ISBN不能为空").fadeIn();
+					flag = false;
+				}
+				$.ajax({
+					async:false,
+					url:"<%=prefix%>/queryByISBN.do",
+					data:{"isbn":isbn},
+					dataType:"json",
+					success:function(data){
+						if(data.book != "" && data.book != null){
+							$("#alertMsg").html("ISBN已存在").fadeIn();
+							flag = false;
+						} 
+					}
+				});
+				return flag;
+			},
 			success:function(data){
 				swal({
 					title: data.addResult,
@@ -180,7 +194,10 @@ $(document).ready(function(){
 				});
 			}	
 		}
+		
 		$("#addForm").ajaxForm(options);
+		
+		
 	});
 	
 

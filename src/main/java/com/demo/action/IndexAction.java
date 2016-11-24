@@ -2,6 +2,7 @@ package com.demo.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.demo.entity.BookEntity;
 import com.demo.service.BookService;
 import com.demo.vo.BookVO;
 import com.github.pagehelper.PageInfo;
@@ -36,13 +36,13 @@ public class IndexAction {
 	
 	@RequestMapping("toIndex.do")
 	public String toIndex(HttpServletRequest request){
-		logger.info("Ìø×ªÖ÷Ò³");
+		logger.info("è·³è½¬ä¸»é¡µ");
 		return "index";
 	}
 	
 	@RequestMapping("toQuery.do")
 	public String toQuery(HttpServletRequest request){
-		logger.info("Ìø×ªÖÁDEMOÒ³");
+		logger.info("è·³è½¬è‡³DEMOé¡µ");
 		return "query";
 	}
 	
@@ -63,17 +63,19 @@ public class IndexAction {
 		}
 		
 		if(bookId != "" && bookId != null){
-			logger.info("¸ù¾İid²éÑ¯Êé¼®£¬id:" + bookId);
+			logger.info("æ ¹æ®idæŸ¥è¯¢ä¹¦ç±ï¼Œid:" + bookId);
 			
-			//¸ù¾İid²éÑ¯
+			//æŸ¥è¯¢å•ä¸ª
 			BookVO book = bookService.queryById(Integer.parseInt(bookId));
 			bookList.add(book);
 			resultMap.put("bookList", bookList);
 		} else {
-			logger.info("²éÑ¯È«²¿Êé¼®");
+			logger.info("æŸ¥è¯¢å…¨éƒ¨ä¹¦ç±");
 			
-			//²éÑ¯ËùÓĞ
+			//æŸ¥è¯¢æ‰€æœ‰
 			bookList = bookService.queryAll(pageNum);
+			logger.info("æŸ¥è¯¢ç»“æœï¼š" + bookList.size() + "ä¸ª");
+			
 			resultMap.put("bookList", bookList);
 			page = new PageInfo<BookVO>(bookList);
 			resultMap.put("pageNum", page.getPageNum());
@@ -103,18 +105,18 @@ public class IndexAction {
 	}
 	
 	@RequestMapping("add.do")
-	public void add(HttpServletRequest request, HttpServletResponse response, BookEntity book){
+	public void add(HttpServletRequest request, HttpServletResponse response, BookVO book){
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		logger.info("ĞÂÔöÊé¼®£¬book:" + book.toString());
+		logger.info("æ–°å¢ä¹¦ç±ï¼Œbook:" + book.toString());
 		
 		boolean result = bookService.insert(book);
 		
 		if(result){
-			resultMap.put("addResult", "Ìí¼Ó³É¹¦£¡");
+			resultMap.put("addResult", "æ·»åŠ æˆåŠŸï¼");
 		} else {
-			resultMap.put("addResult", "Ìí¼ÓÊ§°Ü£¡");
+			resultMap.put("addResult", "æ·»åŠ å¤±è´¥ï¼");
 		}
 		
 		PrintWriter writer = null;
@@ -139,7 +141,6 @@ public class IndexAction {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String bookId = request.getParameter("bookId");
 		
-		//¸ù¾İid²éÑ¯
 		BookVO book = bookService.queryById(Integer.parseInt(bookId));
 		resultMap.put("book", book);
 		
@@ -147,18 +148,18 @@ public class IndexAction {
 	}
 	
 	@RequestMapping("update.do")
-	public void update(HttpServletRequest request, HttpServletResponse response, BookEntity book){
+	public void update(HttpServletRequest request, HttpServletResponse response, BookVO book){
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		logger.info("ĞŞ¸ÄÊé¼®£¬book:" + book.toString());
+		logger.info("ä¿®æ”¹ä¹¦ç±ï¼Œbook:" + book.toString());
 		
 		boolean result = bookService.update(book);
 		
 		if(result){
-			resultMap.put("updateResult", "ĞŞ¸Ä³É¹¦£¡");
+			resultMap.put("updateResult", "ä¿®æ”¹æˆåŠŸï¼");
 		} else {
-			resultMap.put("updateResult", "ĞŞ¸ÄÊ§°Ü£¡");
+			resultMap.put("updateResult", "ä¿®æ”¹å¤±è´¥ï¼");
 		}
 		
 		PrintWriter writer = null;
@@ -183,14 +184,14 @@ public class IndexAction {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String bookId = request.getParameter("bookId");
 		
-		logger.info("É¾³ıÊé¼®£¬id:" + bookId);
+		logger.info("åˆ é™¤ä¹¦ç±ï¼Œid:" + bookId);
 		
 		boolean result = bookService.delete(Integer.parseInt(bookId));
 		
 		if(result){
-			resultMap.put("deleteResult", "É¾³ı³É¹¦£¡");
+			resultMap.put("deleteResult", "åˆ é™¤æˆåŠŸï¼");
 		} else {
-			resultMap.put("deleteResult", "É¾³ıÊ§°Ü£¡");
+			resultMap.put("deleteResult", "åˆ é™¤å¤±è´¥ï¼");
 		}
 		
 		PrintWriter writer = null;
@@ -215,10 +216,10 @@ public class IndexAction {
 		Map<String, Object> resultMap = new HashMap<String, Object>();		
 		String isbn = request.getParameter("isbn");
 		
-		logger.info("¸ù¾İISBN²éÑ¯Êé¼®£¬ISBN£º" + isbn);
+		logger.info("æ ¹æ®ISBNæŸ¥è¯¢ä¹¦ç±ï¼ŒISBNï¼š" + isbn);
 		
 		BookVO book = bookService.queryByISBN(isbn);
-		logger.info("¸ù¾İISBN²éÑ¯µ½Êé¼®£º" + book);
+		logger.info("æ ¹æ®ISBNæŸ¥è¯¢åˆ°çš„ä¹¦ç±ï¼š" + book);
 		resultMap.put("book", book);
 	
 		PrintWriter writer = null;

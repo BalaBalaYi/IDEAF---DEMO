@@ -11,7 +11,7 @@ import com.baidu.disconf.client.common.annotations.DisconfFileItem;
 @DisconfFile(filename = "page.properties")
 public class Page {
 
-	//分页的页面大小
+	//姣忛〉澶у皬
 	private int pageSize;
 
 	@DisconfFileItem(name = "pageSize")

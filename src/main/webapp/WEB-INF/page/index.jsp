@@ -18,6 +18,11 @@
 			padding: 40px 15px;
 			text-align: center;
 		}
+		.mainIntroTable td {
+			margin-right: 10px;
+			font-size: medium;
+			font-style: italic;
+		}
 	</style>
 </head>
 <body>
@@ -42,7 +47,7 @@
 						</li>
 						<li>
 						<a href="#contact">Contact</a>
-						</li>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -50,9 +55,19 @@
 	
 	<div class="jumbotron">
 		<div class="container">
-			<h1>CTY's DEMO</h1>
-			<p>这是一个以Spring,Mybatis框架为基础，整合<br/>&nbsp;&nbsp;&nbsp;1.分库分表中间件：Sharding-JDBC;&nbsp;&nbsp;&nbsp;2.分布式配置系统：Disconf;&nbsp;&nbsp;&nbsp;3.mybatis分页插件：PageHelper;<br/>的综合demo示例.</p>
-			<p><a class="btn btn-primary btn-lg" href="<%=prefix%>/toQuery.do" role="button">Learn more »</a></p>
+			<h2>Integration of Distributed Enterprise Application Frame - DEMO</h2>
+				<br/>
+				<p>这是一个以Spring,Mybatis框架为基础，整合</p>
+				<table class="mainIntroTable" style="width: 100%">
+					<tr>
+						<td>1.分库分表中间件：Sharding-JDBC</td><td>2.分布式配置系统：Disconf</td><td>3.分布式服务框架：Dubbox</td>
+					</tr>
+					<tr>
+						<td>4.分布式弹性作业框架：Elastic-Job（暂未实现）</td><td>5.数据同步系统：Otter</td><td>6.离线数据整合+大数据处理基础构建：DataX+Hbase（暂未实现）</td>
+					</tr>
+				</table>
+				<p><br>的综合demo示例.</p>
+			<p><a class="btn btn-primary btn-lg" href="<%=prefix%>/toQuery.do" role="button">进入DEMO »</a></p>
 		</div>
 	</div>
 	
@@ -61,18 +76,35 @@
 		<div class="row">
 			<div class="col-md-4">
 				<h2>Sharding-JDBC</h2>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-				<p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+				<p>当当的基于jdbc协议的数据库分库分表解决方案，完美衔接spring+mybaits的ORM层实现。<br/><br/>在本项目中用于实现CRUD的分库分表及读写分离。</p>
+				<p><a class="btn btn-default" href="https://github.com/dangdangdotcom/sharding-jdbc" role="button">View details »</a></p>
 			</div>
 			<div class="col-md-4">
 				<h2>Disconf</h2>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-				<p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+				<p>百度的分布式文件配置解决方案。<br/><br/>在本项目中用于实现灵活，高效，并且完美热部署的文件配置及修改等功能。</p>
+				<p><a class="btn btn-default" href="https://github.com/knightliao/disconf" role="button">View details »</a></p>
 			</div>
 			<div class="col-md-4">
-				<h2>PageHelper</h2>
-				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-				<p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+				<h2>Dubbox</h2>
+				<p>原为阿里的分布式服务框架，当当在此基础上进行了增强（建议使用dubbox，dubbo已经长时间没有得到维护）。<br/><br/>本项目通过dubbo-provider.xml简单模拟了通过dubbo实现的远程调用。</p>
+				<p><a class="btn btn-default" href="https://github.com/dangdangdotcom/dubbox" role="button">View details »</a></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Elastic-Job</h2>
+				<p>当当的分布式弹性作业框架，与sharding-jdbc实现共同异步化操作。<br/><br/>暂未实现。</p>
+				<p><a class="btn btn-default" href="https://github.com/dangdangdotcom/elastic-job" role="button">View details »</a></p>
+			</div>
+			<div class="col-md-4">
+				<h2>Otter</h2>
+				<p>阿里的数据同步解决方案。<br/><br/>在本项目中用于实现基于sharding-jdbc读写分离的主从库之间的数据同步。</p>
+				<p><a class="btn btn-default" href="https://github.com/alibaba/otter" role="button">View details »</a></p>
+			</div>
+			<div class="col-md-4">
+				<h2>DataX+Hbase</h2>
+				<p>阿里开源的异构数据源离线同步工具。<br/><br/>在本项目中，计划用于结合elastic-job和Hbase，以实现离线的历史数据查询及大数据处理的基础构建。暂未实现。</p>
+				<p><a class="btn btn-default" href="https://github.com/alibaba/DataX" role="button">View details »</a></p>
 			</div>
 		</div>
 	

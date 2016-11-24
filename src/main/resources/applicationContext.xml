@@ -20,8 +20,9 @@
 		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		 http://www.dangdang.com/schema/ddframe/rdb 
 		 http://www.dangdang.com/schema/ddframe/rdb/rdb.xsd">
-
+	
 	<import resource="classpath*:/sharding-jdbc.xml"/>
+	<import resource="classpath*:/dubbo-provider.xml" />
 
 	<!-- 激活spring的注解. -->
 	<context:annotation-config />
@@ -66,6 +67,9 @@
 	
 	<!-- 默认的注解映射的支持 -->
 	<mvc:annotation-driven />
+	
+	<!-- 定义首页 -->
+	<mvc:view-controller path="/" view-name="redirect:/toIndex.do"/>
 
 	<!-- 视图解释类 -->
 	<bean
