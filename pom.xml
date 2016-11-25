@@ -325,11 +325,6 @@
 			<artifactId>hessian</artifactId>
 			<version>${hessian.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.caucho</groupId>
-			<artifactId>hessian</artifactId>
-			<version>${hessian.version}</version>
-		</dependency>
 <!-- 		<dependency> -->
 <!-- 			<groupId>javassist</groupId> -->
 <!-- 			<artifactId>javassist</artifactId> -->
