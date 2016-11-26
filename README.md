@@ -7,53 +7,65 @@
 
 <br/>
 ## DEMO应用架构体系图：
-![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/DEMO-ARCH.gif)  
+![架构图](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/DEMO-ARCH.gif)  
 
 <br/>
 ## 主要集成开源应用的介绍：
 
 ####一. sharding-jdbc:
-当当的基于jdbc协议的数据库分库分表解决方案，完美衔接spring+mybaits的ORM层实现。在本项目中用于实现CRUD的分库分表及读写分离。
+当当的基于jdbc协议的数据库分库分表解决方案，完美衔接spring+mybaits的ORM层实现（暂不支持oracle）。在本项目中用于实现CRUD的分库分表及读写分离。
 
 #####github:https://github.com/dangdangdotcom/sharding-jdbc
-使用依赖：`jar包` `项目配置文件`
+集成方式：嵌入式
+使用依赖：`jar包` `项目配置文件` `mysql`
 
-
+<br/>
 ####二. otter:
 阿里的数据同步解决方案。在本项目中用于实现基于sharding-jdbc读写分离的主从库之间的数据同步。
 
 #####github:https://github.com/alibaba/otter
-使用依赖：`zookeeper` `mysql`or`oracle`
+集成方式：独立服务<br/>
+使用依赖：`zookeeper` `mysql`or`oracle`<br/>
+示例图：
+![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/otter.gif) 
 
-
+<br/>
 ####三. disconf:
 百度的分布式文件配置解决方案。在本项目中用于实现灵活，高效，并且完美热部署的文件配置及修改等功能。
 
 #####github:https://github.com/knightliao/disconf<br/>
 #####官网文档：http://disconf.readthedocs.io/zh_CN/latest/
-使用依赖：`jar包` `项目配置文件` `zookeeper` `redis` `nginx`
+集成方式：嵌入式+独立服务<br/>
+使用依赖：`jar包` `项目配置文件` `zookeeper` `redis` `nginx`<br/>
+示例图：
+![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/disconf.gif)
 
-
+<br/>
 ####四. dubbo(dubbox):
 原为阿里的分布式服务框架，当当在此基础上进行了增强（建议使用dubbox，dubbo已经长时间没有得到维护）。本项目中通过dubbo-provider.xml简单模拟了通过dubbo实现的远程调用。
 
 #####dubbox:github:https://github.com/dangdangdotcom/dubbox<br/>
 #####dubbo:github:https://github.com/alibaba/dubbo<br/>
 #####dubbo原官方文档：http://dubbo.io/User+Guide-zh.htm#UserGuide-zh-%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8
-使用依赖：`jar包` `项目配置文件` `zookeeper`
+集成方式：嵌入式+独立服务<br/>
+使用依赖：`jar包` `项目配置文件` `zookeeper`<br/>
+示例图：
+![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/dubbo.gif)
 
-
+<br/>
 ####五. elastic-job:
 当当的分布式弹性作业框架，与sharding-jdbc实现共同异步化操作。暂未实现。
 
 #####github:https://github.com/dangdangdotcom/elastic-job
+集成方式：嵌入式<br/>
 使用依赖：`jar包` `项目配置文件`
 
-
+<br/>
 ####六. DataX+Hbase:
 阿里开源的异构数据源离线同步工具。在本项目中，计划用于结合elastic-job和Hbase，以实现离线的历史数据查询及大数据处理的基础构建。暂未实现。
 
 #####github:https://github.com/dangdangdotcom/elastic-job
+集成方式：嵌入式+独立服务<br/>
 使用依赖：`jar包` `项目配置文件`
 
 <br/>
@@ -74,6 +86,11 @@
 ####五. bootstrap：前端框架。
 #####github:https://github.com/twbs/bootstrap
 
+####六.dubbo-monitor：dubbo第三方开源监控，是基于dubbo原作者在原有monitor基础上的增强版本的一个改良分支。
+#####github:https://github.com/handuyishe/dubbo-monitor
+示例图：
+![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/dubbo-monitor.gif)
+
 <br/>
 ## 如何部署并运行：
 
@@ -91,7 +108,7 @@
 
 ####五. 将war包放入tomcat或其它应用容器部署运行。
 
-#####war包download:http://pan.baidu.com/s/1eRRiogi
+#####[war包download](http://pan.baidu.com/s/1eRRiogi)
 
 <br/>
 ## 效果图展示：
