@@ -91,6 +91,11 @@
 示例图：
 ![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/dubbo-monitor.gif)
 
+####七.druid：国内著名的数据库连接池，由阿里开源。在高性能的基础上集成了完善的监控及安全功能。
+#####github:https://github.com/alibaba/druid
+示例图：
+![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/druid.gif)
+
 <br/>
 ## 如何部署并运行：
 
@@ -121,9 +126,9 @@
 
 ###V1.0 基础实现
 >#####v1.0.0 底层支持应用+基础框架+基础代码            ——已实现
->#####v1.1.0 引入Druid及其附属功能，引入分布式自生成主键的实现          ——进行中
->#####v1.2.0 整合elastic-job，实现简单的异步化操作           ——未实现
-        
+>#####v1.1.0 引入Druid及其附属功能，引入分布式自生成主键的实现          ——已实现
+>#####v1.2.0 整合elastic-job，实现简单的异步化操作           ——进行中
+        
 ###v2.0 elastic-job+datax+hbase 的大数据存储以及高效查询的整体实现           ——未实现
 
 ###v3.0 应用分布式化+分布式事务实现          ——未实现（这个......能不能坚持到这个时候，就看缘分了......）
