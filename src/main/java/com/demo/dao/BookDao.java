@@ -6,7 +6,7 @@ import com.demo.entity.BookEntity;
 
 public interface BookDao {
 
-	public BookEntity queryById(Integer id);
+	public BookEntity queryById(Long id);
 
 	public List<BookEntity> queryAll();
 	
@@ -14,7 +14,7 @@ public interface BookDao {
 	
 	public int update(BookEntity book);
 	
-	public int delete(Integer id);
+	public int delete(Long id);
 
 	public BookEntity queryByISBN(String isbn);
 	

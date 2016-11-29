@@ -1,11 +1,9 @@
 package com.demo.service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import com.demo.dao.BookDao;
 import com.demo.entity.BookEntity;
 import com.demo.vo.BookVO;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
 
 @Service
 public class BookService {
@@ -26,7 +25,7 @@ public class BookService {
 	@Autowired
 	private Page page;
 	
-	public BookVO queryById(Integer id){
+	public BookVO queryById(Long id){
 		BookEntity book = new BookEntity();
 		BookVO bookVO = new BookVO();
 		try {
@@ -109,7 +108,7 @@ public class BookService {
 		}
 	}
 	
-	public boolean delete(Integer id){
+	public boolean delete(Long id){
 		int deleteResult = -1;
 		try {
 			deleteResult = bookDao.delete(id);
@@ -164,12 +163,14 @@ public class BookService {
 		}
 		BookEntity book = new BookEntity();
 		try{
-			book.setId(Integer.parseInt(vo.getId()));
+			if(!StringUtil.isEmpty(vo.getId())){
+				book.setId(Long.valueOf(vo.getId()));
+			}
 			book.setAuthor(vo.getAuthor());
 			book.setIsbn(vo.getIsbn());
 			book.setName(vo.getName());
 			book.setPrice(vo.getPrice());
-			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 			book.setPublicationTime(format.parse(vo.getPublicationTime()));
 			book.setPublisher(vo.getPublisher());
 		} catch (Exception e) {

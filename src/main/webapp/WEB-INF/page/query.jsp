@@ -157,7 +157,7 @@
 				{ "data": "author" },
 				{ "data": "publisher" },
 				{ "data": "publicationTime", "render": function(data, type, full, meta){
-					return new Date(data).Format("yyyy-MM-dd hh:mm:ss");
+					return new Date(data).Format("yyyy-MM-dd");
 				} },
 				{ "data": "price" },
 				{ "data": "isbn" },

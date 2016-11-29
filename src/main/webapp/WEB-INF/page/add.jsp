@@ -36,11 +36,15 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$('#publicationTime').datetimepicker({lang:'ch'});
+	$('#publicationTime').datetimepicker({
+		lang:'ch',
+		format:"Y/m/d",	//格式化日期
+		timepicker:false,	//关闭时间选项
+	});
 	
 	$(".alert").hide();
 	
-	$("#id").blur(function(){
+<%-- 	$("#id").blur(function(){
 		var id = $("#id").val();
 		if(id == ""){
 			$("#alertMsg").html("编号不能为空").fadeIn();
@@ -71,7 +75,7 @@ $(document).ready(function(){
 				}
 			},'json');
 		}
-	});
+	}); --%>
 	
 	$("#name").blur(function(){
 		var name = $("#name").val();
@@ -126,7 +130,7 @@ $(document).ready(function(){
 			dataType:"json",
 			beforeSubmit:function(){
 				var flag = true;
-				var id = $("#id").val();
+<%-- 				var id = $("#id").val();
 				if(id == ""){
 					$("#alertMsg").html("编号不能为空").fadeIn();
 					flag = false;
@@ -148,7 +152,7 @@ $(document).ready(function(){
 							flag = false;
 						}
 					}
-				});
+				}); --%>
 				
 				var name = $("#name").val();
 				if(name == ""){
@@ -244,9 +248,9 @@ $(document).ready(function(){
 				<table border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>
-							<div class="input-group">
+							<div class="input-group" title="1bit符号位(为0)，41bit时间位，10bit工作进程位，12bit序列位">
 								<span class="input-group-addon">编号：</span>
-								<input type="text" class="form-control" placeholder="id" name="id" id="id"/>
+								<input type="text" class="form-control" placeholder="分布式自增主键" name="id" id="id" readonly="readonly"/>
 							</div>
 							
 						</td>

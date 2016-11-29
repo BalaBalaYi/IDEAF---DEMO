@@ -23,47 +23,105 @@
 
 	<context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
 
-	<!-- 数据源配置：双主库，一主两从读写分离-->	
-	<bean id="dbtbl_0_master" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<!-- druid 监控配置 -->
+	<!-- 监控 -->
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="3000" />
+		<property name="logSlowSql" value="true" />
+		<property name="mergeSql" value="true" />
+	</bean>
+	<!-- 防火墙 -->
+	<bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig" init-method="init">
+		<property name="dir" value="META-INF/druid/wall/mysql" />
+	</bean>
+	<bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+		<property name="dbType" value="mysql" />
+		<property name="config" ref="wall-filter-config" />
+	</bean>
+
+	<!-- 数据源配置：双主库，一主两从读写分离  -->	
+	<bean id="dbtbl_0_master" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="${master1_url}"/>
 		<property name="username" value="${master1_usr}"/>
 		<property name="password" value="${master1_pwd}"/>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
+		<property name="useGlobalDataSourceStat" value="true" />
 	</bean>
 	
-	<bean id="dbtbl_0_slave_0" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dbtbl_0_slave_0" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="${master1_slave1_url}"/>
 		<property name="username" value="${master1_slave1_usr}"/>
 		<property name="password" value="${master1_slave1_pwd}"/>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
+		<property name="useGlobalDataSourceStat" value="true" />
 	</bean>
 	
-	<bean id="dbtbl_0_slave_1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dbtbl_0_slave_1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="${master1_slave2_url}"/>
 		<property name="username" value="${master1_slave2_usr}"/>
 		<property name="password" value="${master1_slave2_pwd}"/>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
+		<property name="useGlobalDataSourceStat" value="true" />
 	</bean>
 
-	<bean id="dbtbl_1_master" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dbtbl_1_master" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="${master2_url}"/>
 		<property name="username" value="${master2_usr}"/>
 		<property name="password" value="${master2_pwd}"/>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
+		<property name="useGlobalDataSourceStat" value="true" />
 	</bean>
 	
-	<bean id="dbtbl_1_slave_0" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dbtbl_1_slave_0" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="${master2_slave1_url}"/>
 		<property name="username" value="${master2_slave1_usr}"/>
 		<property name="password" value="${master2_slave1_pwd}"/>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
+		<property name="useGlobalDataSourceStat" value="true" />
 	</bean>
 	
-	<bean id="dbtbl_1_slave_1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dbtbl_1_slave_1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="${master2_slave2_url}"/>
 		<property name="username" value="${master2_slave2_usr}"/>
 		<property name="password" value="${master2_slave2_pwd}"/>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
+		<property name="useGlobalDataSourceStat" value="true" />
 	</bean>
 	
 	<!-- 定义读写分离数据源, 读写分离数据源实现了DataSource接口, 可直接当做数据源处理 -->
@@ -75,11 +133,12 @@
 	<rdb:strategy id="tableStrategy" sharding-columns="ISBN" algorithm-class="com.demo.dao.algorithm.SingleKeyModuloTableShardingAlgorithm"/>
 
 	<rdb:data-source id="shardingDataSource">
-		<rdb:sharding-rule data-sources="dbtbl_0, dbtbl_1">
+		<rdb:sharding-rule data-sources="dbtbl_0, dbtbl_1" id-generator-class="com.dangdang.ddframe.rdb.sharding.id.generator.self.CommonSelfIdGenerator">
 			<rdb:table-rules>
 				<!-- ${begin..end} 表示范围区间 ${[unit1, unit2, unitX]} 表示枚举值 -->
-				<rdb:table-rule logic-table="book" actual-tables="book_${0..1}" table-strategy="tableStrategy" database-strategy="databaseStrategy"/>
-<!-- 				<rdb:table-rule logic-table="t_order" actual-tables="t_order_${0..1}" table-strategy="tableStrategy" database-strategy="databaseStrategy"/> -->
+				<rdb:table-rule logic-table="book" actual-tables="book_${0..1}" table-strategy="tableStrategy" database-strategy="databaseStrategy">
+					<rdb:auto-increment-column column-name="ID"/>
+				</rdb:table-rule>
 			</rdb:table-rules>
 <!-- 			<rdb:binding-table-rules> -->
 <!-- 				<rdb:binding-table-rule logic-tables="BOOK"/> -->

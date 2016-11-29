@@ -2,7 +2,6 @@ package com.demo.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +65,7 @@ public class IndexAction {
 			logger.info("根据id查询书籍，id:" + bookId);
 			
 			//查询单个
-			BookVO book = bookService.queryById(Integer.parseInt(bookId));
+			BookVO book = bookService.queryById(Long.valueOf(bookId));
 			bookList.add(book);
 			resultMap.put("bookList", bookList);
 		} else {
@@ -141,7 +140,7 @@ public class IndexAction {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String bookId = request.getParameter("bookId");
 		
-		BookVO book = bookService.queryById(Integer.parseInt(bookId));
+		BookVO book = bookService.queryById(Long.valueOf(bookId));
 		resultMap.put("book", book);
 		
 		return new ModelAndView("update", resultMap);
@@ -186,7 +185,7 @@ public class IndexAction {
 		
 		logger.info("删除书籍，id:" + bookId);
 		
-		boolean result = bookService.delete(Integer.parseInt(bookId));
+		boolean result = bookService.delete(Long.valueOf(bookId));
 		
 		if(result){
 			resultMap.put("deleteResult", "删除成功！");

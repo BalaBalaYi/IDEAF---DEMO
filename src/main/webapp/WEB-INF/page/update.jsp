@@ -36,7 +36,11 @@
 
 $(document).ready(function(){
 	
-	$('#publicationTime').datetimepicker({lang:'ch'});
+	$('#publicationTime').datetimepicker({
+		lang:'ch',
+		format:"Y/m/d",	//格式化日期
+		timepicker:false,	//关闭时间选项
+	});
 	
 	$(".alert").hide();
 	

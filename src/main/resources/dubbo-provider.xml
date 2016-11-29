@@ -50,7 +50,7 @@
 		<!-- 序列化编码  -->
 		<dubbo:parameter key="charset" value="UTF-8"/>
 		<!-- 服务文档url -->
-		<dubbo:parameter key="document" value="https://192.168.65.129/svn/development/Merchant/develop/doc/"/>
+<!-- 		<dubbo:parameter key="document" value="https://127.0.0.1/svn/develop/doc/"/> -->
 	</dubbo:provider>
 	
 	
@@ -74,7 +74,7 @@
 		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	    
 
-	<dubbo:application name="mservice" owner="MP" organization="19pay"/>  
+	<dubbo:application name="DEMO-consumer" owner="BalaBalaYi" />  
 	
 	<dubbo:registry address="zookeeper://192.168.65.107:2181" /> 
 	

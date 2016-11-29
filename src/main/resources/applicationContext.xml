@@ -68,6 +68,9 @@
 	<!-- 默认的注解映射的支持 -->
 	<mvc:annotation-driven />
 	
+	<!-- 静态文件处理 -->
+	<mvc:default-servlet-handler />
+	
 	<!-- 定义首页 -->
 	<mvc:view-controller path="/" view-name="redirect:/toIndex.do"/>
 
@@ -88,5 +91,21 @@
 	
 	<!-- 支持cglib的aop -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<!-- druid 和 spring 的关联监控 -->
+	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor"></bean>
+	
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+			scope="prototype">
+		<property name="patterns">
+		<list>
+			<value>com.demo.api.*</value>
+		</list>
+		</property>
+	</bean>
+	
+	<aop:config>
+		<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
 	
 </beans>

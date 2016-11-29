@@ -16,7 +16,7 @@ public class BookInterfaceImpl implements BookInterface{
 	@Autowired
 	private BookService  bookService;
 	
-	public BookVO findBookById(Integer id){
+	public BookVO findBookById(Long id){
 		return bookService.queryById(id);
 	}
 }

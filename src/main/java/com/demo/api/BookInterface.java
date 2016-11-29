@@ -14,5 +14,5 @@ public interface BookInterface {
 	 * @param id
 	 * @return
 	 */
-	public BookVO findBookById(Integer id);
+	public BookVO findBookById(Long id);
 }

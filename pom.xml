@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cty.demo</groupId>
 	<artifactId>DEMO</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>war</packaging>
 	<name>DEMO</name>
 
@@ -85,7 +85,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
-		<sharding-jdbc.version>1.3.2</sharding-jdbc.version>
+		<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version>
+		<wtpversion.version>2.0</wtpversion.version>
+		<sharding-jdbc.version>1.4.0</sharding-jdbc.version>
 		<mybatis.version>3.2.8</mybatis.version>
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
 		<pagehelper.version>4.1.6</pagehelper.version>
@@ -119,6 +121,7 @@
 		<jetty.version>6.1.26</jetty.version>
 		<netty.version>3.2.2.Final</netty.version>
 		<zkclient.version>0.1</zkclient.version>
+		<druid.version>1.0.11</druid.version>
 	</properties>
 
 	<dependencies>
@@ -139,6 +142,11 @@
 		<dependency>
 			<groupId>com.dangdang</groupId>
 			<artifactId>sharding-jdbc-config-spring</artifactId>
+			<version>${sharding-jdbc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>sharding-jdbc-self-id-generator</artifactId>
 			<version>${sharding-jdbc.version}</version>
 		</dependency>
 		
@@ -368,6 +376,12 @@
 			<artifactId>zkclient</artifactId>
 			<version>${zkclient.version}</version>
 		</dependency>
+		<!-- 如果需要使用druid的监控，请使用1.0.11;1.0.12有BUG（目前sharding-jdbc默认是1.0.12） -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
 		<!-- 3rd party end -->
 
 	</dependencies>
@@ -405,9 +419,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
+				<version>${maven-eclipse-plugin.version}</version>
 				<configuration>
-					<wtpversion>2.0</wtpversion>
+					<wtpversion>${wtpversion.version}</wtpversion>
 					<additionalProjectnatures>
 						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
 					</additionalProjectnatures>

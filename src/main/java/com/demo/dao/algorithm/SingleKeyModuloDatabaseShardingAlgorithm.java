@@ -24,10 +24,10 @@ import com.google.common.collect.Range;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-public final class SingleKeyModuloDatabaseShardingAlgorithm implements SingleKeyDatabaseShardingAlgorithm<Integer> {
+public final class SingleKeyModuloDatabaseShardingAlgorithm implements SingleKeyDatabaseShardingAlgorithm<Long> {
 	
 	@Override
-	public String doEqualSharding(final Collection<String> availableTargetNames, final ShardingValue<Integer> shardingValue) {
+	public String doEqualSharding(final Collection<String> availableTargetNames, final ShardingValue<Long> shardingValue) {
 		for (String each : availableTargetNames) {
 			if (each.endsWith(shardingValue.getValue() % 2 + "")) {
 				return each;
@@ -37,10 +37,10 @@ public final class SingleKeyModuloDatabaseShardingAlgorithm implements SingleKey
 	}
 	
 	@Override
-	public Collection<String> doInSharding(final Collection<String> availableTargetNames, final ShardingValue<Integer> shardingValue) {
+	public Collection<String> doInSharding(final Collection<String> availableTargetNames, final ShardingValue<Long> shardingValue) {
 		Collection<String> result = new LinkedHashSet<>(availableTargetNames.size());
-		Collection<Integer> values = shardingValue.getValues();
-		for (Integer value : values) {
+		Collection<Long> values = shardingValue.getValues();
+		for (Long value : values) {
 			for (String dataSourceName : availableTargetNames) {
 				if (dataSourceName.endsWith(value % 2 + "")) {
 					result.add(dataSourceName);
@@ -51,10 +51,10 @@ public final class SingleKeyModuloDatabaseShardingAlgorithm implements SingleKey
 	}
 	
 	@Override
-	public Collection<String> doBetweenSharding(final Collection<String> availableTargetNames, final ShardingValue<Integer> shardingValue) {
+	public Collection<String> doBetweenSharding(final Collection<String> availableTargetNames, final ShardingValue<Long> shardingValue) {
 		Collection<String> result = new LinkedHashSet<>(availableTargetNames.size());
-		Range<Integer> range = shardingValue.getValueRange();
-		for (Integer i = range.lowerEndpoint(); i <= range.upperEndpoint(); i++) {
+		Range<Long> range = shardingValue.getValueRange();
+		for (Long i = range.lowerEndpoint(); i <= range.upperEndpoint(); i++) {
 			for (String each : availableTargetNames) {
 				if (each.endsWith(i % 2 + "")) {
 					result.add(each);

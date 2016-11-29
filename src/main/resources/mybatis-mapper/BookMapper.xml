@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.dao.BookDao">
 	<resultMap id="BookMap" type="Book">
-		<result property="id" column="ID" jdbcType="INTEGER" />
+		<result property="id" column="ID" jdbcType="BIGINT" />
 		<result property="name" column="NAME" jdbcType="VARCHAR" />
 		<result property="author" column="AUTHOR" jdbcType="VARCHAR" />
 		<result property="publisher" column="PUBLISHER" jdbcType="VARCHAR" />
@@ -11,10 +11,20 @@
 		<result property="isbn" column="ISBN" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryById" parameterType="Integer" resultMap="BookMap">
+	<sql id="baseColumnList">
+		ID,
+		NAME,
+		AUTHOR,
+		PUBLISHER,
+		PUBLICATION_TIME,
+		PRICE,
+		ISBN
+	</sql>
+	
+	<select id="queryById" parameterType="Long" resultMap="BookMap">
 		select * from book t
 		<where>
-			t.ID = #{id,jdbcType=INTEGER}
+			t.ID = #{id,jdbcType=BIGINT}
 		</where>
 	</select>
 	
@@ -26,41 +36,12 @@
 	</select>
 	
 	<select id="queryAll" resultMap="BookMap">
-		select * from book t order by t.ID
+		select * from book t
 	</select>
-	
-<!-- 	<insert id="insert" parameterType="Book"> -->
-<!-- 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String"> -->
-<!-- 			SELECT -->
-<!-- 			BOOK_SEQ.nextVal -->
-<!-- 			AS id FROM DUAL -->
-<!-- 		</selectKey> -->
-<!-- 		insert into Book -->
-<!-- 			( -->
-<!-- 			ID, -->
-<!-- 			NAME, -->
-<!-- 			AUTHOR, -->
-<!-- 			PUBLISHER, -->
-<!-- 			PUBLICATION_TIME, -->
-<!-- 			PRICE, -->
-<!-- 			ISBN -->
-<!-- 			) -->
-<!-- 		values -->
-<!-- 			( -->
-<!-- 			#{id,jdbcType=INTEGER}, -->
-<!-- 			#{name,jdbcType=VARCHAR}, -->
-<!-- 			#{author,jdbcType=VARCHAR}, -->
-<!-- 			#{publisher,jdbcType=VARCHAR}, -->
-<!-- 			#{publicationTime,jdbcType=TIMESTAMP}, -->
-<!-- 			#{price,jdbcType=VARCHAR}, -->
-<!-- 			#{isbn,jdbcType=VARCHAR} -->
-<!-- 			) -->
-<!-- 	</insert> -->
 
-	<insert id="insert" parameterType="Book">
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="Book">
 		insert into book
 			(
-			ID,
 			NAME,
 			AUTHOR,
 			PUBLISHER,
@@ -70,7 +51,6 @@
 			)
 		values
 			(
-			#{id,jdbcType=INTEGER},
 			#{name,jdbcType=VARCHAR},
 			#{author,jdbcType=VARCHAR},
 			#{publisher,jdbcType=VARCHAR},
@@ -91,14 +71,14 @@
 			<if test="isbn != null">ISBN = #{isbn,jdbcType=VARCHAR}</if>
 		</set>
 		<where>
-			ID = #{id,jdbcType=INTEGER}
+			ID = #{id,jdbcType=BIGINT}
 		</where>
 	</update>
 	
-	<delete id="delete" parameterType="Integer">
+	<delete id="delete" parameterType="Long">
 		delete from book
 		<where>
-			ID = #{id,jdbcType=INTEGER}
+			ID = #{id,jdbcType=BIGINT}
 		</where>
 	</delete>
 
