@@ -27,7 +27,7 @@
 集成方式：独立服务<br/>
 使用依赖：`zookeeper` `mysql`or`oracle`<br/>
 示例图：
-![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/otter.gif) 
+![otter服务端应用](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/otter.gif) 
 
 <br/>
 ####三. disconf:
@@ -38,7 +38,7 @@
 集成方式：嵌入式+独立服务<br/>
 使用依赖：`jar包` `项目配置文件` `zookeeper` `redis` `nginx`<br/>
 示例图：
-![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/disconf.gif)
+![disconf服务端应用](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/disconf.gif)
 
 <br/>
 ####四. dubbo(dubbox):
@@ -50,19 +50,21 @@
 集成方式：嵌入式+独立服务<br/>
 使用依赖：`jar包` `项目配置文件` `zookeeper`<br/>
 示例图：
-![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/dubbo.gif)
+![dubbo服务端应用](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/dubbo.gif)
 
 <br/>
 ####五. elastic-job:
-当当的分布式弹性作业框架，与sharding-jdbc实现共同异步化操作。暂未实现。
+当当的分布式弹性作业框架，与sharding-jdbc实现共同异步化操作。已实现elastic-job-lite的异步简单作业。
 
 #####github:https://github.com/dangdangdotcom/elastic-job
 集成方式：嵌入式<br/>
 使用依赖：`jar包` `项目配置文件`
+示例图（lite）：
+![lite的运维应用](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/elastic-job-lite-console.gif)
 
 <br/>
 ####六. DataX+Hbase:
-阿里开源的异构数据源离线同步工具。在本项目中，计划用于结合elastic-job和Hbase，以实现离线的历史数据查询及大数据处理的基础构建。暂未实现。
+阿里开源的异构数据源离线同步工具。在本项目中，计划用于结合elastic-job和Hbase，以实现离线的历史数据查询及大数据处理的基础构建。底层搭建中。
 
 #####github:https://github.com/dangdangdotcom/elastic-job
 集成方式：嵌入式+独立服务<br/>
@@ -89,12 +91,12 @@
 ####六.dubbo-monitor：dubbo第三方开源监控，是基于dubbo原作者在原有monitor基础上的增强版本的一个改良分支。
 #####github:https://github.com/handuyishe/dubbo-monitor
 示例图：
-![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/dubbo-monitor.gif)
+![dubbo监控页面](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/dubbo-monitor.gif)
 
 ####七.druid：国内著名的数据库连接池，由阿里开源。在高性能的基础上集成了完善的监控及安全功能。
 #####github:https://github.com/alibaba/druid
 示例图：
-![](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/druid.gif)
+![druid监控页面](https://github.com/BalaBalaYi/IDEAF---DEMO/raw/master/resources/druid.gif)
 
 <br/>
 ## 如何部署并运行：
@@ -127,9 +129,11 @@
 ###V1.0 基础实现
 >#####V1.0.0 底层支持应用+基础框架+基础代码            ——已实现
 >#####V1.1.0 引入Druid及其附属功能，引入分布式自生成主键的实现          ——已实现
->#####V1.2.0 整合elastic-job，实现简单的异步化操作           ——进行中<br/>   
+>#####V1.2.0 整合elastic-job，实现简单的异步化操作           ——已实现
+>#####V1.3.0 进一步扩展elastic-job-lite的功能（需要配合后期v2.0，实现新的复杂业务）           ——计划中
+>#####V1.5.0 将elastic-job-lite进一步扩展为elastic-job-cloud的实现（看实际需要）           ——计划中<br/>   
 
-###V2.0 完成elastic-job+datax+hbase 的大数据存储以及高效查询的整体实现           ——未实现<br/>
+###V2.0 完成elastic-job+datax+hbase 的大数据存储以及高效查询的整体实现           ——进行中<br/>
 
 ###V3.0 应用分布式化+分布式事务实现          ——未实现（这个......能不能坚持到这个时候，就看缘分了......）
 
