@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:reg="http://www.dangdang.com/schema/ddframe/reg"
+	xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd 
+						http://www.dangdang.com/schema/ddframe/reg 
+						http://www.dangdang.com/schema/ddframe/reg/reg.xsd 
+						http://www.dangdang.com/schema/ddframe/job 
+						http://www.dangdang.com/schema/ddframe/job/job.xsd 
+						">
+						
+	<!--配置作业注册中心 -->
+	<reg:zookeeper id="ejRegCenter" server-lists="192.168.65.107:2181" namespace="107registry" base-sleep-time-milliseconds="1000" max-sleep-time-milliseconds="3000" max-retries="3" />
+	
+	<!-- 配置简单作业-->
+	<job:simple id="bookAddingJob" 
+		class="com.demo.job.BookAddingJob" 
+		registry-center-ref="ejRegCenter" 
+		cron="0/60 * * * * ?" 
+		sharding-total-count="2" 
+		sharding-item-parameters="0=普通,1=精品" 
+		job-exception-handler="com.demo.handler.GenericElasticJobExceptionHandler"
+		description="书籍添加自动化作业" >
+		<job:listener class="com.demo.listener.GenericElasticJobListener" />
+	</job:simple>
+	
+	<!-- 配置数据流作业-->
+<!-- 	<job:dataflow id="throughputDataflow" class="xxx.MyThroughputDataflowElasticJob" registry-center-ref="ejRegCenter" cron="0/10 * * * * ?" sharding-total-count="3" sharding-item-parameters="0=A,1=B,2=C" /> -->
+	
+	<!-- 配置脚本作业-->
+<!-- 	<job:script id="scriptElasticJob" registry-center-ref="ejRegCenter" cron="0/10 * * * * ?" sharding-total-count="3" sharding-item-parameters="0=A,1=B,2=C" script-command-line="/your/file/path/demo.sh" /> -->
+	
+	<!-- 配置带作业数据库事件追踪的简单作业-->
+<!-- 	<job:simple id="listenerElasticJob" class="xxx.MySimpleListenerElasticJob" registry-center-ref="regCenter" cron="0/10 * * * * ?" sharding-total-count="3" sharding-item-parameters="0=A,1=B,2=C" event-trace-rdb-data-source="yourDataSource"> -->
+<!-- 	</job:simple> -->
+	
+</beans>

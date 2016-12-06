@@ -23,6 +23,7 @@
 	
 	<import resource="classpath*:/sharding-jdbc.xml"/>
 	<import resource="classpath*:/dubbo-provider.xml" />
+	<import resource="classpath*:/elastic-job.xml" />
 
 	<!-- 激活spring的注解. -->
 	<context:annotation-config />
